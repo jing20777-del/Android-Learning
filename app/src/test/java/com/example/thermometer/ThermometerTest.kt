@@ -15,4 +15,5 @@ class ThermometerTest {
             celsiusToFahrenheit(-274.0)
         }
     }
+
 }
