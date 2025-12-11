@@ -20,27 +20,29 @@ import com.example.thermometer.ui.theme.ThermometerTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
-        val celsius = 0.0
-
-        fun celsiusToFahrenheit(c: Double ) = c * 9/5 +32
-
-
-        val fahrenheit = celsiusToFahrenheit(celsius)
-
         setContent {
-            ThermometerTheme {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize() //沾满屏幕
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    Text("摄氏度：$celsius°C")
-                    Text("华氏度：$fahrenheit°F")
-                }
-            }
+
         }
+    }
+}
+
+@Preview(showBackground = true, name = "温度转换预览")
+@Composable
+fun ThermometerScreen() {
+    val celsius = 0.0
+
+    fun celsiusToFahrenheit(c: Double ) = c * 9/5 +32
+
+    val fahrenheit = celsiusToFahrenheit(celsius)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize() //沾满屏幕
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Text("摄氏度：$celsius°C")
+        Text("华氏度：$fahrenheit°F")
     }
 }
