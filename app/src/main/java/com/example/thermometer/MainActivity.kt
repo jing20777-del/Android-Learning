@@ -10,30 +10,36 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.thermometer.ui.theme.ThermometerTheme
+import androidx.compose.runtime.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            ThermometerTheme {
+                ThermometerScreen()
+            }
         }
     }
 }
 
-@Preview(showBackground = true, name = "温度转换预览")
+//@Preview(showBackground = true, name = "状态提升示例")
 @Composable
-fun ThermometerScreen() {
-    val celsius = 0.0
+fun ThermometerInputField(
+    celsiusInput: String,
+    onCelsiusChange: (String) -> Unit,
+    fahrenheit: Double
 
-    fun celsiusToFahrenheit(c: Double ) = c * 9/5 +32
-
-    val fahrenheit = celsiusToFahrenheit(celsius)
+) {
 
     Column(
         modifier = Modifier
@@ -42,7 +48,30 @@ fun ThermometerScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text("摄氏度：$celsius°C")
-        Text("华氏度：$fahrenheit°F")
+        TextField(
+            value = celsiusInput,
+            onValueChange = onCelsiusChange,
+            label = {Text("摄氏度")},
+            placeholder = {Text("例如: 36.5")}
+        )
+
+        Text(
+            text = "华氏度: $fahrenheit°F",
+            modifier = Modifier.padding(top = 16.dp)
+        )
     }
+}
+
+
+@Composable
+fun ThermometerScreen(){
+    var celsiusInput by remember { mutableStateOf("0") }
+    val celsius = celsiusInput.toDoubleOrNull() ?: 0.0
+    val fahrenheit = celsius * 9.0 / 5.0 + 32.0
+
+    ThermometerInputField(
+        celsiusInput = celsiusInput,
+        onCelsiusChange = { celsiusInput = it },
+        fahrenheit = fahrenheit
+    )
 }
